@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const ImageGenerator = () => {
-  const [prompt, setPrompt] = useState('');
-  const [generatedImage, setGeneratedImage] = useState('');
+  const [prompt, setPrompt] = useState("");
+  const [generatedImage, setGeneratedImage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/generate`, {
-        prompt
-      });
-
-      setGeneratedImage(response.data.imageUrl);
-    } catch (error) {
-      console.error('Error generating image:', error);
-    } finally {
-      setLoading(false);
-    }
+      e.preventDefault();
+      setLoading(true);
+      try {
+        const response = await axios.post('/generate', {
+          prompt,
+        });
+        setGeneratedImage(response.data.imageUrl);
+      } catch (error) {
+        console.error("Error generating image:", error);
+      } finally {
+        setLoading(false);
+      }
   };
 
   return (
@@ -41,12 +39,16 @@ const ImageGenerator = () => {
           disabled={loading}
           className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
         >
-          {loading ? 'Generating...' : 'Generate Image'}
+          {loading ? "Generating..." : "Generate Image"}
         </button>
       </form>
       {generatedImage && (
         <div className="mt-4">
-          <img src={generatedImage} alt="Generated" className="max-w-full rounded" />
+          <img
+            src={generatedImage}
+            alt="Generated"
+            className="max-w-full rounded"
+          />
         </div>
       )}
     </div>
